@@ -1,5 +1,5 @@
-import { TextField, Typography } from "@mui/material";
 import React from "react";
+import { TextField, Typography } from "@mui/material";
 import IPost from "../../interfaces/IPost";
 
 interface FormFieldsProps {
@@ -33,9 +33,9 @@ export default function FormFields(props : FormFieldsProps) {
                     label="description"
                     value={props.post.body}
                     onChange={props.handleOnChange}
+                    minRows={12}
                     multiline
                     fullWidth
-                    minRows={8}
                 />
             </div>
         </React.Fragment> 

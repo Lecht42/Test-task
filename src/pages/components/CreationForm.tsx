@@ -1,27 +1,26 @@
-import React, {useState, useEffect } from 'react';
-import '../../App.css';
-import Box from '@mui/material/Box';
-import { Button } from '@mui/material';
+import React, { useState } from 'react';
+import { Button, Box } from '@mui/material';
 import FormFields from './FormFields';
 import IPost from '../../interfaces/IPost';
 import UserID from '../../constants/UserID';
 import { ServerInteractor } from '../../api/ServerInteractor';
+import '../../App.css';
 
-interface CreateFormProps {
+interface CreationFormProps {
     children?: React.ReactNode;
 }
 
-export default function CreatingForm(props : CreateFormProps) {    
-    const [post, setPost] = useState<IPost | null>({ userId : UserID, id : Math.floor(Math.random() * Number.MAX_SAFE_INTEGER) } as IPost)
+export default function CreationForm(props : CreationFormProps) {    
+    
+    const [post, setPost] = useState<IPost | null>({ userId : UserID, id : Number(sessionStorage.getItem("numberOfPosts")) + 1, title : "", body : "" } as IPost)
 
     const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const obj = Object.create(post) as IPost
+        const obj = Object.assign({}, post) as IPost
         
-        obj[event.currentTarget.name as keyof IPost] = event.currentTarget.value
+        obj[event.currentTarget.name] = event.currentTarget.value
         
         setPost(obj)
     }
-
 
     const createPost = async () => {
         await ServerInteractor.createPost(post! as IPost)

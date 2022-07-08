@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { ListItemButton, ListItemText, ThemeProvider } from '@mui/material';
-import IPost from '../../interfaces/IPost';
+import { ListItemButton, ListItemText } from '@mui/material';
 import { grey } from '@mui/material/colors';
+import IPost from '../../interfaces/IPost';
 
 interface ItemProps {
     item: IPost;

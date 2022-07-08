@@ -1,11 +1,9 @@
 import React, {useState, useEffect } from 'react';
-import '../../App.css';
-import TextField from '@mui/material/TextField'
-import Box from '@mui/material/Box';
-import { ServerInteractor } from '../../api/ServerInteractor';
-import { Button } from '@mui/material';
+import { Button, Box } from '@mui/material';
 import IPost from '../../interfaces/IPost';
 import FormFields from './FormFields';
+import { ServerInteractor } from '../../api/ServerInteractor';
+import '../../App.css';
 
 interface EditFormProps {
     id: string | undefined;
@@ -13,32 +11,31 @@ interface EditFormProps {
 }
 
 export default function EditForm(props : EditFormProps) {    
+    
     const [post, setPost] = useState<IPost | null>(null)
 
     const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const obj = Object.create(post) as IPost
+        const obj = Object.assign({}, post) as IPost
         
-        obj[event.currentTarget.name as keyof IPost] = event.currentTarget.value
+        obj[event.currentTarget.name] = event.currentTarget.value
         
         setPost(obj)
     }
 
-    const getPostDetails = async () => {
-        setPost(await ServerInteractor.fetchPostInfo(props.id!))
-    };
+    const getPostDetails = async () => { setPost(await ServerInteractor.fetchPostInfo(props.id!)) };
 
-    useEffect(() => {
-        getPostDetails()
-    }, [])
+    useEffect(() => { getPostDetails() }, [])
+
+    const routeToHomepage = () => {  window.location.href = '/' }
 
     const deletePost = async () => {
         await ServerInteractor.deletePost(props.id!)
-        window.location.href = '/'
+        routeToHomepage()
     }
 
     const updatePost = async () => {
         await ServerInteractor.updatePost(props.id!, post!)
-        window.location.href = '/'
+        routeToHomepage()
     }
 
     return ( 

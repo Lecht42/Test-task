@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import '../App.css';
-import { ServerInteractor } from '../api/ServerInteractor';
 import Feed from './components/Feed';
 import Box from '@mui/material/Box';
+import { ServerInteractor } from '../api/ServerInteractor';
+import '../App.css';
 
 export default function HomePage() {    
     const [items, setItems] = useState([])
@@ -11,8 +11,10 @@ export default function HomePage() {
 
     useEffect(() => { getPosts() }, [])
 
+    useEffect(() => { sessionStorage.setItem("numberOfPosts", String(items.length)) }, [items])
+
     return ( 
-        <Box className="centered" sx={{width: "500px"}}> 
+        <Box className="centered feed"> 
             <Feed items={items} /> 
         </Box>
     )

@@ -8,7 +8,6 @@ interface ListProps {
     children?: React.ReactNode;
 }
 
-
 export default function Feed(props : ListProps) {
   return (
       <List>
