@@ -7,17 +7,19 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import Home from './pages/Home';
+import Home from './pages/HomePage';
+import DetailsPage from './pages/DetailsPage';
+import HomePage from './pages/HomePage';
 
 
 function App() {
   return (
       <Box>
-        <Header />
         <Router>
+        <Header />
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/details" element={<Home />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/details:id" element={<DetailsPage />} />
             <Route path="/create-post" element={<Home />} />
           </Routes>
         </Router>

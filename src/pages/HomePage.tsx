@@ -7,16 +7,18 @@ import Box from '@mui/material/Box';
 import { AppBar,  Button,  Typography } from '@mui/material';
 import Header from './components/Header';
 
-export default function Home() {    
+export default function HomePage() {    
     const [items, setItems] = useState([])
 
-    const getPosts = async () => {
-        setItems(await ServerInteractor.fetchPosts())
-    };
+    const getPosts = async () => setItems(await ServerInteractor.fetchPosts());
 
     useEffect(() => {
         getPosts()
     })
 
-    return ( <Feed items={items} /> )
+    return ( 
+    <Box className="centered"> 
+        <Feed items={items} /> 
+    </Box>
+    )
 }
