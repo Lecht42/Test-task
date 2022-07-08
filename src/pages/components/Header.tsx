@@ -1,6 +1,7 @@
+import React from 'react';
 import { AppBar, Button, Toolbar, Typography } from '@mui/material';
-import { Link, useLocation } from 'react-router-dom';
-import '../../App.css';
+import { useLocation } from 'react-router-dom';
+import PageNames from '../../constants/PageNames';
 
 export default function Header() {
     const location = useLocation();
@@ -9,9 +10,9 @@ export default function Header() {
         <AppBar position="sticky">
             <Toolbar>
                 <Typography variant="h6" align="center" component="div" sx={{ flexGrow: 1 }}>
-                    {location.pathname}
+                    {PageNames.get(location.pathname)}
                 </Typography>               
-                    <Button href="/" color="inherit">
+                    <Button href="/create" color="inherit">
                         Create post
                     </Button>
             </Toolbar>

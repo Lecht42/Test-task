@@ -1,31 +1,38 @@
-import { TextField } from "@mui/material";
-import React, { useState } from "react";
-import Post from "../../interfaces/Post";
+import { TextField, Typography } from "@mui/material";
+import React from "react";
+import IPost from "../../interfaces/IPost";
 
 interface FormFieldsProps {
-    title?: string;
-    body?: string;
-    titleHandleOnChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    descriptionHandleOnChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    post: IPost | null;
+    handleOnChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     children?: React.ReactNode;
 }
 
 export default function FormFields(props : FormFieldsProps) {    
+    if(props.post === null)
+        return <React.Fragment />
+    
     return ( 
         <React.Fragment>
             <div>
+                <Typography display="inline" >{`UserID: ${props.post.userId}`}</Typography>
+                <Typography display="inline" sx={{float: "right"}}>{`ID: ${props.post.id}`}</Typography>
+            </div>
+            <div>
                 <TextField
+                    name="title"
                     label="title"
-                    value={props.title}
-                    onChange={props.titleHandleOnChange}
+                    value={props.post.title}
+                    onChange={props.handleOnChange}
                     fullWidth
                 />
             </div>
             <div>           
                 <TextField
+                    name="body"
                     label="description"
-                    value={props.body}
-                    onChange={props.descriptionHandleOnChange}
+                    value={props.post.body}
+                    onChange={props.handleOnChange}
                     multiline
                     fullWidth
                     minRows={8}

@@ -3,8 +3,9 @@
 }
 
 .form {
-  width: 650px;
-  height: 500px;
+  margin: 15px;
+  min-width: 650px;
+  min-height: 600px;
 }
 
 .form > div {

@@ -3,8 +3,8 @@ import '../../App.css';
 import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box';
 import { ServerInteractor } from '../../api/ServerInteractor';
-import Post from '../../interfaces/Post';
 import { Button } from '@mui/material';
+import IPost from '../../interfaces/IPost';
 import FormFields from './FormFields';
 
 interface EditFormProps {
@@ -13,34 +13,40 @@ interface EditFormProps {
 }
 
 export default function EditForm(props : EditFormProps) {    
-    const [title, setTitle] = useState("")
-    const [description, setDescription] = useState("")
+    const [post, setPost] = useState<IPost | null>(null)
 
-    const titleHandleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => setTitle(event.currentTarget.value)
-    const descriptionHandleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => setDescription(event.currentTarget.value)
-    
-    const getPostDetails = async () => {
-        if(props.id === undefined) {
-            props.id = '1'
-            console.error("Route param 'id' is undefined, param 'id' is changed to '1'")
-        }
+    const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const obj = Object.create(post) as IPost
         
-        const details : Post = await ServerInteractor.fetchPostInfo(props.id)
+        obj[event.currentTarget.name as keyof IPost] = event.currentTarget.value
+        
+        setPost(obj)
+    }
 
-        setTitle(details.title)
-        setDescription(details.body)
+    const getPostDetails = async () => {
+        setPost(await ServerInteractor.fetchPostInfo(props.id!))
     };
 
     useEffect(() => {
         getPostDetails()
     }, [])
 
+    const deletePost = async () => {
+        await ServerInteractor.deletePost(props.id!)
+        window.location.href = '/'
+    }
+
+    const updatePost = async () => {
+        await ServerInteractor.updatePost(props.id!, post!)
+        window.location.href = '/'
+    }
+
     return ( 
         <Box className='centered form'>
-            <FormFields title={title} body={description} titleHandleOnChange={titleHandleOnChange} descriptionHandleOnChange={descriptionHandleOnChange} />
+            <FormFields post={post!}  handleOnChange={handleOnChange} />
             <div>
-            <Button variant="contained" sx={{width: "160px", float: "right"}}>Update</Button>
-                <Button color="error">Delete</Button>
+                <Button onClick={updatePost} variant="contained" sx={{width: "160px", float: "right"}}>Update</Button>
+                <Button onClick={deletePost} color="error">Delete</Button>
             </div>
         </Box> 
     )
